@@ -40,8 +40,10 @@
 #       - say_goodbye
 
 version: 2.1
+
 orbs:
   node: circleci/node@5.0.3
+
 jobs:
   install-and-test:
     executor:
@@ -52,8 +54,8 @@ jobs:
       - node/install-packages
       - run:
           command: npm run test
-          name: Run YARN tests
-  deploy:
+          name: Run npm tests
+  deploy-github-pages:
     executor:
       name: node/default
       tag: '16.17'
@@ -63,8 +65,9 @@ jobs:
       - run:
           name: Build << pipeline.git.branch >>
           command: npm run build
+
 workflows:
   test_and_deploy_my_app:
     jobs:
       - install-and-test
-      - deploy
+      -  deploy-github-pages
