@@ -53,7 +53,18 @@ jobs:
       - run:
           command: npm run test
           name: Run YARN tests
+  deploy:
+    executor:
+      name: node/default
+      tag: '16.17'
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Build << pipeline.git.branch >>
+          command: npm run build
 workflows:
-  test_my_app:
-    jobs: 
+  test_and_deploy_my_app:
+    jobs:
       - install-and-test
+      - deploy
