@@ -56,26 +56,13 @@ jobs:
           command: npm run test
           name: Run npm tests
   deploy-github-pages:
-    executor:
-      name: node/default
-      tag: '16.17'
+    executor: gh-pages/default
     steps:
       - checkout
-      - node/install-packages
-      - run:
-          name: Build << pipeline.git.branch >>
-          command: >
-            npm i git &&\ 
-            git config --global user.email "55555topkung@gmail.com" &&\ 
-            git config --global user.name "TopThammanun" &&\
-            npm install -g yarn &&\
-            yarn install
-      - run:
-          name: deploy
-          command: >
-            git remote set-url origin \
-            << pipeline.project.git_url >>.git &&\
-            PUBLIC_URL=/react-deploy npm run deploy
+      - run: ./build.sh
+      - gh-pages/deploy:
+          setup-git: true
+          ssh-fingerprints: <fingerprint>
 
 workflows:
   test_and_deploy_my_app:
