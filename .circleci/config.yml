@@ -65,26 +65,16 @@ jobs:
       - run:
           name: Build << pipeline.git.branch >>
           command: >
-            npm run build && \
-            git config --global user.email "${{ github.event.pusher.email }}" && \
-            git config --global user.name "${{ github.actor }}" && \
-            npm install && \
-            PUBLIC_URL=/${{ github.event.repository.name }} npm run build
+            git config --global user.email "55555topkung@gmail.com" &&\ 
+            git config --global user.name "TopThammanun" &&\
+            npm install -g yarn &&\
+            yarn install
       - run:
           name: deploy
           command: >
-            mkdir ./gh-pages && \
-            git init -b gh-pages ./gh-pages && \ 
-            cd ./gh-pages && \
-            git remote add -t gh-pages origin \
-            https://git:${{ github.token }}@github.com/${{ github.repository }}.git && \ 
-            git pull origin gh-pages && \
-            rm -rf ./* && \
-            cp -rf ../build/* ./ && \
-            git add . && \
-            git commit -m "Manually commit" && \
-            git push origin gh-pages && \
-            cd ..
+            git remote set-url origin \
+            << pipeline.project.git_url >>.git &&\
+            PUBLIC_URL=/react-deploy npm run deploy
 
 workflows:
   test_and_deploy_my_app:
