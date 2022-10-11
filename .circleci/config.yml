@@ -43,6 +43,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.3
+  gh-pages: sugarshin/gh-pages@1.0.1
 
 jobs:
   install-and-test:
