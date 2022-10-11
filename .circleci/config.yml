@@ -47,9 +47,9 @@ jobs:
     executor:
       name: node/default
       tag: '16.17'
-    steps: 
+    steps:
       - checkout
-      - node/install-packages:
+      - node/install-packages
       - run:
           command: npm run test
           name: Run YARN tests
