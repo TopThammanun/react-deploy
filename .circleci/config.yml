@@ -65,6 +65,7 @@ jobs:
       - run:
           name: Build << pipeline.git.branch >>
           command: >
+            npm i git &&\ 
             git config --global user.email "55555topkung@gmail.com" &&\ 
             git config --global user.name "TopThammanun" &&\
             npm install -g yarn &&\
