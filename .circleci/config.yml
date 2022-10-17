@@ -51,8 +51,7 @@ jobs:
       tag: '16.17'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
   test:
     executor:
       name: node/default
@@ -104,7 +103,7 @@ jobs:
             git remote set-url origin https://git:${GITHUB_TOKEN}@github.com${REPOPATH}.git
       - run:
           name: Deploy to gh-pages
-          command: yarn run deploy
+          command: npm run deploy
 
 workflows:
   test_and_deploy_my_app:
