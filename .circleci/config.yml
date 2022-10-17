@@ -58,22 +58,10 @@ jobs:
       tag: '16.17'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
       - run:
           name: Test << pipeline.git.branch >>
           command: yarn run test
-  build:
-    executor:
-      name: node/default
-      tag: '16.17'
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: yarn
-      - run:
-          name: Build << pipeline.git.branch >>
-          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} yarn run build
   deploy:
     executor:
       name: node/default
@@ -82,8 +70,7 @@ jobs:
       REPOURL: << pipeline.project.git_url >>
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
       - run:
           name: Setup evironment variables
           command: |
@@ -93,6 +80,9 @@ jobs:
           command: |
             git config --global user.email "55555topkung@gmail.com"
             git config --global user.name "TopThammanun"
+      - run:
+          name: Build << pipeline.git.branch >>
+          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} npm run build
       - run:
           name: Setup Github token
           command: |
@@ -112,12 +102,8 @@ workflows:
       - test:
           requires:
             - initial
-      - build:
-          requires:
-            - initial
       - deploy:
           requires:
             - test
-            - build
           context:
             - github-context
